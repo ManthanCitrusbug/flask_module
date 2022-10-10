@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Profile {{user.username}}</title>
+{% endblock title %}
+
+{% block contant %}
+<div class="container m-5 d-flex">
+    <img src="{{ url_for('static', filename='images/'+user.profile_picture) }}" alt="" class="w-25 h-25">
+    <div class="ml-5">
+        <h3>{{user.username}}</h3>
+        <p>{{user.email}}</p>
+    </div>
+</div>
+
+<div class="m-auto w-75">
+    <h1 class="m-auto">{{user.username}}'s Posts</h1>
+    {% for post in posts %}
+    <div class="jumbotron mt-3 d-flex">
+        <img src="{{ url_for('static', filename='images/'+post.image) }}" alt="" class="w-25 h-25">
+        <div class="ml-5">
+            <p class="lead">{{ post.caption }}</p>
+            <hr class="my-4">
+            <p>{{ post.created_at }}</p>
+            <p class="lead">
+              <a class="btn btn-primary btn-lg" href="#" role="button">Comment</a>
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock contant %}

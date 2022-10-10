@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Profile {{current_user.username}}</title>
+{% endblock title %}
+
+{% block contant %}
+<div class="container m-5 d-flex">
+    <img src="{{ url_for('static', filename='images/'+current_user.profile_picture) }}" alt="" class="w-25 h-25">
+    <div class="ml-5">
+        <h3>{{current_user.username}}</h3>
+        <p>{{current_user.email}}</p>
+        <a href="{{ url_for('user.update', user_id=user.id) }}" class="btn btn-info">Update</a>
+        <a href="{{ url_for('post.add_post') }}" class="btn btn-secondary">Add Post</a>
+    </div>
+</div>
+
+<div class="m-auto w-75">
+    <h1 class="m-auto">{{current_user.username}}'s Posts</h1>
+    {% for post in posts %}
+    <div class="jumbotron mt-3 d-flex">
+        <img src="{{ url_for('static', filename='images/'+post.image) }}" alt="" class="w-25 h-25">
+        <div class="ml-5">
+            <p class="lead">{{ post.caption }}</p>
+            <hr class="my-4">
+            <p>{{ post.created_at }}</p>
+            <p class="lead">
+              <a class="btn btn-dark btn-lg" href="#" role="button">Edit</a>
+              <a class="btn btn-danger btn-lg" href="#" role="button">Delete</a>
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock contant %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Posts</title>
+{% endblock title %}
+
+{% block contant %}
+<h1 class="m-5">All Posts</h1>
+{% for post in posts %}
+<div class="m-auto w-75">
+    <div class="jumbotron mt-3 d-flex">
+        <img src="{{ url_for('static', filename='images/'+post.image) }}" alt="" class="w-25 h-25">
+        <div class="ml-5">
+            <h3 class="display-4">Post by - {{ post.user.username }}</h3>
+            <p class="lead">{{ post.caption }}</p>
+            <hr class="my-4">
+            <p>{{ post.created_at }}</p>
+            <p class="lead">
+              <a class="btn btn-primary btn-lg" href="#" role="button">Comment</a>
+              <a class="btn btn-info btn-lg" href="{{ url_for('post.post_detail', post_id=post.id) }}" role="button">View Post</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+<div class="my-5 text-center">
+    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
+        {% if page_num %}
+            {% if posts.page == page_num %}
+                <a href="{{ url_for('post.posts', page=page_num) }}" class="btn btn-info">{{page_num}}</a>
+            {% else %}
+                <a href="{{ url_for('post.posts', page=page_num) }}" class="btn btn-outline-info">{{page_num}}</a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock contant %}

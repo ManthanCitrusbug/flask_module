@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Update Profile</title>
+{% endblock title %}
+
+
+{% block contant %}
+<div class="container m-auto">
+    <h3 class="text-center mt-5">Update Profile</h3>
+    <form method="POST" action="{{ url_for('user.update', user_id=user.id) }}" novalidate enctype=multipart/form-data>
+        {{form.hidden_tag()}}
+        <div class="text-center mt-3">
+            {{ form.username.label(class="form-control-label") }}
+            {% if form.username.errors %}
+                {{ form.username(class="form-control mt-2 is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.username.errors %}
+                        <span>{{error}}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.username(class="form-control mt-2", attr="required=False") }}
+            {% endif %}
+        </div>
+        <div class="text-center mt-3">
+            <div class="text-center mt-3">
+                {{ form.email.label(class="form-control-label") }}
+                {% if form.email.errors %}
+                    {{ form.email(class="form-control mt-2 is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.email(class="form-control mt-2", attr="required=False") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            {{ form.profile_picture.label(class="form-control-label w-50") }}
+            {{ form.profile_picture(class="form-control-file mt-2 m-auto w-50") }}
+            {% if form.profile_picture.errors %}
+                {% for error in form.profile_picture.errors %}
+                    <span class="text-danger">{{error}}</span><br>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="text-center mt-3">
+            {{ form.submit(class="btn btn-success mt-2") }}
+        </div>
+    </form>
+</div>
+{% endblock contant %}
