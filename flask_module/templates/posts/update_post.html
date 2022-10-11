@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Update Post</title>
+{% endblock title %}
+
+
+{% block contant %}
+<div class="container m-auto">
+    <h3 class="text-center mt-5">Update Post</h3>
+    <form method="POST" action="{{ url_for('post.update_post', post_id=post.id) }}" novalidate enctype=multipart/form-data>
+        {{form.hidden_tag()}}
+        <div class="text-center mt-3">
+            {{ form.image.label(class="form-control-label w-50") }}
+            {{ form.image(class="form-control-file mt-2 m-auto w-50") }}
+            {% if form.image.errors %}
+                {% for error in form.image.errors %}
+                    <span class="text-danger">{{error}}</span><br>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="text-center mt-3">
+            <div class="text-center mt-3">
+                {{ form.caption.label(class="form-control-label") }}
+                {% if form.caption.errors %}
+                    {{ form.caption(class="form-control mt-2 is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.caption.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.caption(class="form-control mt-2",) }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            {{ form.submit(class="btn btn-success mt-2") }}
+        </div>
+    </form>
+</div>
+{% endblock contant %}

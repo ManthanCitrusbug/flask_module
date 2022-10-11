@@ -11,9 +11,19 @@
     <p class="lead">{{ post.caption }}</p>
     <hr class="my-4">
     <p>{{ post.created_at }}</p>
+    <form method="POST" action="{{ url_for('post.add_comment', post_id=post.id) }}" class="comment-form comment-form-{{post.id}} d-none">
+      <textarea class="form-control" name="comment" id="" cols="60" rows="5"></textarea>
+      <input type="submit" value="Submit" class="btn btn-success mt-2">
+    </form>
     <p class="lead">
-      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+      <a class="btn btn-primary btn-lg comment-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Comment</a>
     </p>
+    <hr class="my-4">
+    <h4>Comments :</h4>
+    {% for comment in post.comment %}
+      <h6 class="mt-2">@{{comment.user.username}}</h6>
+      <p>{{comment.comment}}</p>
+    {% endfor %}
 </div>
 
 {% endblock contant %}

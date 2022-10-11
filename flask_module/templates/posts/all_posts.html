@@ -15,9 +15,27 @@
             <p class="lead">{{ post.caption }}</p>
             <hr class="my-4">
             <p>{{ post.created_at }}</p>
+            <p>Likes : {{ post.likes|length }}</p>
             <p class="lead">
-              <a class="btn btn-primary btn-lg" href="#" role="button">Comment</a>
-              <a class="btn btn-info btn-lg" href="{{ url_for('post.post_detail', post_id=post.id) }}" role="button">View Post</a>
+
+                {% if current_user == post.user %}
+                    <a class="btn btn-dark btn-lg" href="{{ url_for('post.update_post', post_id=post.id) }}" role="button">Edit</a>
+                    <a class="btn btn-danger btn-lg delete-post" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Delete</a>
+                {% else %}
+                    <form method="POST" action="{{ url_for('post.add_comment', post_id=post.id) }}" class="comment-form comment-form-{{post.id}} d-none">
+                        <textarea class="form-control" name="comment" id="" cols="60" rows="5"></textarea>
+                        <input type="submit" value="Submit" class="btn btn-success mt-2">
+                    </form>
+                    <a class="btn btn-primary btn-lg comment-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Comment</a>
+                    <a class="btn btn-info btn-lg view-post-button" id="view-post-{{post.id}}" data-postid="{{post.id}}" href="{{ url_for('post.post_detail', post_id=post.id) }}" role="button">View Post</a>
+                    <a class="btn btn-warning btn-lg like-button {% for like in post.likes %}{% if like in current_user.like %}disabled{% endif %}{% endfor %}" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Like</a>
+                {% endif %}
+                <hr class="my-4">
+                <h4>Comments :</h4>
+                {% for comment in post.comment[0:2] %}
+                    <h6 class="mt-2">{{comment.user.username}}</h6>
+                    <p>{{comment.comment}}</p>
+                {% endfor %}
             </p>
         </div>
     </div>

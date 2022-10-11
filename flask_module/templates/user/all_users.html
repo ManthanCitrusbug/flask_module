@@ -12,7 +12,11 @@
     <div class="ml-5">
         <h3>{{user.username}}</h3>
         <p>{{user.email}}</p>
-        <a href="#" class="btn btn-primary">Connect</a>
+        {% if user in current_user.following %}
+        <a href="{{ url_for('user.remove_user', user_id=user.id) }}" class="btn btn-danger">Remove Following</a>
+        {% else %}
+        <a href="{{ url_for('user.follow_user', user_id=user.id) }}" class="btn btn-primary">Connect</a>
+        {% endif %}
         <a href="{{ url_for('user.profile_detail', username=user.username) }}" class="btn btn-warning">View Profile</a>
     </div>
 </div>

@@ -24,12 +24,33 @@
             <p class="lead">{{ post.caption }}</p>
             <hr class="my-4">
             <p>{{ post.created_at }}</p>
+            <p>Likes : {{ post.likes|length }}</p>
             <p class="lead">
-              <a class="btn btn-dark btn-lg" href="#" role="button">Edit</a>
-              <a class="btn btn-danger btn-lg" href="#" role="button">Delete</a>
+              <a class="btn btn-dark btn-lg" href="{{ url_for('post.update_post', post_id=post.id) }}" role="button">Edit</a>
+              <a class="btn btn-danger btn-lg delete-post" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Delete</a>
             </p>
+            <hr class="my-4">
+            <h4>Comments :</h4>
+            {% for comment in post.comment[0:2] %}
+            <h6 class="mt-2">{{comment.user.username}}</h6>
+            <p>{{comment.comment}}</p>
+            {% endfor %}
         </div>
     </div>
+    {% endfor %}
+</div>
+
+<div class="my-5 text-center">
+    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
+        {% if page_num %}
+            {% if posts.page == page_num %}
+                <a href="{{ url_for('user.profile', username=current_user.username, page=page_num) }}" class="btn btn-info">{{page_num}}</a>
+            {% else %}
+                <a href="{{ url_for('user.profile', username=current_user.username, page=page_num) }}" class="btn btn-outline-info">{{page_num}}</a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
     {% endfor %}
 </div>
 {% endblock contant %}
