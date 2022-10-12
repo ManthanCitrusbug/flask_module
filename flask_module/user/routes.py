@@ -1,10 +1,11 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request, session
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session, jsonify
 from flask_module.user.forms import RegistraionForm, LoginForm
 from flask_module.user.models import User
 from flask_module.posts.models import Post
 from flask_login import current_user, login_user, logout_user
 from flask_module import bcrypt, db, app
-import secrets, os
+from bs4 import BeautifulSoup
+import secrets, os, requests, webbrowser
 
 user = Blueprint("user", __name__)
 
@@ -146,3 +147,33 @@ def remove_user(user_id):
     authenticated_user.following.remove(user)
     db.session.commit()
     return redirect(url_for('user.users'))
+
+
+@user.route('/scrape_images')
+def scrape_images():
+    url = request.args.get('url')
+    req = requests.get(url)
+    soup = BeautifulSoup(req.text, 'html.parser')
+    images = soup.find_all('img')
+    
+    img_scr = []
+    for img in images:
+        img_scr.append(img['src'])
+        
+    return jsonify(img_scr)
+
+
+@user.route('/post_scraped_image', methods=["POST", "GET"])
+def post_scraped_image():
+    src = request.args.get('src')
+    hex_image = secrets.token_hex(8)
+    f_name, f_ext = os.path.splitext(src)
+    image_name = hex_image + ".jpg"
+    image_path = os.path.join(app.root_path, 'static\images', image_name)
+    with open(image_path, 'wb') as f:
+        im = requests.get(src)
+        f.write(im.content)
+    post = Post(image=image_name, caption="", user_id=current_user.id)
+    db.session.add(post)
+    db.session.commit()
+    return jsonify(src)

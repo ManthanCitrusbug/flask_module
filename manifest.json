@@ -1,0 +1,38 @@
+{
+    "manifest_version": 3,
+    "name": "Get Images",
+    "version": "1.0",
+    "description": "Get All Images.",
+    "permissions":[
+        "activeTab",
+        "scripting",
+        "tabs"
+    ],
+    "host_permissions":[
+        "http://127.0.0.1:5000/*",
+        "<all_urls>"
+    ],
+    "action": {
+        "default_title":"Get all images.",
+        "default_popup":"/flask_module/templates/popup/popup.html",
+        "default_icon":{
+            "32":"/flask_module/static/images/google_docs_hdpi.png"
+        }
+    },
+    "icons": {
+        "16":"/flask_module/static/images/google_docs_hdpi.png",
+        "48":"/flask_module/static/images/google_docs_hdpi.png",
+        "128":"/flask_module/static/images/google_docs_hdpi.png"
+    },
+    "devtools_page": "/flask_module/templates/display_all_images.html",
+    "content_scripts":[
+        {
+            "matches":[
+                "<all_urls>"
+            ],
+            "js":[
+                "/flask_module/static/js/scrape_images.js"
+            ]
+        }
+    ]
+  }
