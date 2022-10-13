@@ -16,3 +16,8 @@ $(".like-button").on("click", function(){
     var post_id = $(this).data("postid")
     window.location.href = `/like/${post_id}`
 })
+
+$(".dislike-button").on("click", function(){
+    var likeid = $(this).data("likeid")
+    window.location.href = `/dislike/${likeid}`
+})

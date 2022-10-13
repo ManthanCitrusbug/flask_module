@@ -7,8 +7,8 @@ class Post(db.Model):
     caption = db.Column(db.String(20), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    comment = db.relationship("Comments", backref="post", lazy=True)
-    likes = db.relationship("Likes", backref="post", lazy=True)
+    comment = db.relationship("Comments", backref="post", lazy=True, cascade = "all, delete, delete-orphan", )
+    likes = db.relationship("Likes", backref="post", lazy=True, cascade = "all, delete, delete-orphan", )
     
     def __repr__(self):
         return f"<Post ({self.id})>"

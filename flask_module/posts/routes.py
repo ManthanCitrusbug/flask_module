@@ -1,3 +1,4 @@
+from ast import Delete
 from flask import Blueprint, render_template, url_for, request, redirect, session
 from flask_login import current_user
 from flask_module.posts.form import AddPost
@@ -101,3 +102,11 @@ def like_a_post(post_id):
     db.session.add(like)
     db.session.commit()
     return redirect(url_for("post.posts"))
+
+
+@post.route("/dislike/<int:like_id>", methods=['POST', 'GET'])
+def dislike(like_id):
+    like = Likes.query.filter_by(id=like_id).first()
+    db.session.delete(like)
+    db.session.commit()
+    return redirect(url_for("post.posts")) 

@@ -28,7 +28,17 @@
                     </form>
                     <a class="btn btn-primary btn-lg comment-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Comment</a>
                     <a class="btn btn-info btn-lg view-post-button" id="view-post-{{post.id}}" data-postid="{{post.id}}" href="{{ url_for('post.post_detail', post_id=post.id) }}" role="button">View Post</a>
-                    <a class="btn btn-warning btn-lg like-button {% for like in post.likes %}{% if like in current_user.like %}disabled{% endif %}{% endfor %}" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Like</a>
+                    
+                    {% if current_user.like|length > 0 %}
+                        {% for like in current_user.like %}
+                            {% if like in post.likes %}
+                                <a class="btn btn-danger btn-lg dislike-button" data-likeid="{{like.id}}" href="javascript:void(0);" role="button">Disike</a>   
+                            {% elif loop.last %}   
+                                <a class="btn btn-warning btn-lg like-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Like</a>                         
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+        
                 {% endif %}
                 <hr class="my-4">
                 <h4>Comments :</h4>

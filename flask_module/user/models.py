@@ -18,9 +18,9 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(30), unique=True, nullable=False)
     profile_picture = db.Column(db.String(70), nullable=False, default="defualt_img.jpg")
     password = db.Column(db.String(15), nullable=False)
-    like = db.relationship("Likes", backref="user", lazy=True)
-    post = db.relationship("Post", backref="user", lazy=True)
-    comment = db.relationship("Comments", backref="user", lazy=True)
+    like = db.relationship("Likes", backref="user", lazy=True, cascade = "all, delete, delete-orphan", )
+    post = db.relationship("Post", backref="user", lazy=True, cascade = "all, delete, delete-orphan", )
+    comment = db.relationship("Comments", backref="user", lazy=True, cascade = "all, delete, delete-orphan", )
     following = db.relationship("User",
                     secondary=connected_user,
                     primaryjoin=id==connected_user.c.parent_id,

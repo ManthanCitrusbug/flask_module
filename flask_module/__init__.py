@@ -13,8 +13,12 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 bcrypt = Bcrypt(app)
 
+from flask_module.api.routes import *
 from flask_module.user.routes import user
 from flask_module.posts.routes import post
 
 app.register_blueprint(user)
 app.register_blueprint(post)
+api.add_resource(UsersApi, '/api/users')
+api.add_resource(UserApi, '/api/user/<int:pk>')
+api.add_resource(PostsApi, '/api/posts')
