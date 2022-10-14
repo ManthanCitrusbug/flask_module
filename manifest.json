@@ -31,7 +31,7 @@
                 "<all_urls>"
             ],
             "js":[
-                "/flask_module/static/js/scrape_images.js"
+                "/flask_module/static/js/manijest_images.js"
             ]
         }
     ]

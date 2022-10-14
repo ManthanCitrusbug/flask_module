@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <title>Document</title>
+</head>
 <body>
-    {% for img in images %}
-        <img src="{{img}}" alt="">
-    {% endfor %}
+    <h1 class="text-danger">401</h1>
+    <h3>Authentication error.</h3>
 </body>
 </html>

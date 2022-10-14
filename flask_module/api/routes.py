@@ -1,8 +1,12 @@
+import imp
+from operator import imod
 from flask_restful import Api, Resource, marshal_with, fields
 from flask_module.user.models import *
 from flask_module.posts.models import *
-from flask_module import app
+from flask_module import app, bcrypt
 from flask import request
+from functools import wraps
+import random
 
 api = Api(app)
 
@@ -20,6 +24,18 @@ postfields = {
     "created_at": fields.DateTime,
     "user": fields.Nested(userfields)
 }
+
+class UserLogin(Resource):
+    # @marshal_with(userfields)
+    def post(self):
+        responce = request.json
+        user = User.query.filter_by(email=responce['email']).first()
+        if user and bcrypt.check_password_hash(user.password, responce['password']):
+            code = random.choice(range(100000, 999999))
+
+        # qry_users = User.query.all()
+        return code
+
 
 class UsersApi(Resource):
     @marshal_with(userfields)

@@ -16,9 +16,11 @@ bcrypt = Bcrypt(app)
 from flask_module.api.routes import *
 from flask_module.user.routes import user
 from flask_module.posts.routes import post
+from flask_module.error_handlers import error_handlers
 
 app.register_blueprint(user)
 app.register_blueprint(post)
 api.add_resource(UsersApi, '/api/users')
+api.add_resource(UserLogin, '/api/login')
 api.add_resource(UserApi, '/api/user/<int:pk>')
 api.add_resource(PostsApi, '/api/posts')

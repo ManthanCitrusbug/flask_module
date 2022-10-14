@@ -1,11 +1,11 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request, session, jsonify
+from flask import Blueprint, render_template, redirect, url_for, request, session, jsonify, abort
 from flask_module.user.forms import RegistraionForm, LoginForm
 from flask_module.user.models import User
 from flask_module.posts.models import Post
 from flask_login import current_user, login_user, logout_user
 from flask_module import bcrypt, db, app
 from bs4 import BeautifulSoup
-import secrets, os, requests, webbrowser
+import secrets, os, requests, base64
 
 user = Blueprint("user", __name__)
 
@@ -117,7 +117,8 @@ def users():
         users = User.query.filter(User.id != current_user.id).paginate(per_page=1, page=page)
         return render_template("user/all_users.html", users=users)
     else:
-        return redirect(url_for("user.login"))
+        abort(401)
+        # return redirect(url_for("user.login"))
 
 
 @user.route("/profile_detail/<string:username>", methods=["POST", "GET"])
@@ -159,12 +160,29 @@ def scrape_images():
     img_scr = []
     for img in images:
         img_scr.append(img['src'])
-        
+    print(img_scr)
     return jsonify(img_scr)
 
 
-@user.route('/post_scraped_image', methods=["POST", "GET"])
+@user.route('/post_scraped_image/', methods=["POST", "GET"])
 def post_scraped_image():
+    src_ = request.args.get('src')
+    src = base64.b64decode(src_).decode('ascii')
+    hex_image = secrets.token_hex(8)
+    f_name, f_ext = os.path.splitext(src)
+    image_name = hex_image + ".jpg"
+    image_path = os.path.join(app.root_path, 'static\images', image_name)
+    with open(image_path, 'wb') as f:
+        im = requests.get(src)
+        f.write(im.content)
+    post = Post(image=image_name, caption="", user_id=current_user.id)
+    db.session.add(post)
+    db.session.commit()
+    return redirect(url_for("user.profile", username=current_user.username))
+
+
+@user.route('/post_scraped', methods=["POST", "GET"])
+def post_scraped():
     src = request.args.get('src')
     hex_image = secrets.token_hex(8)
     f_name, f_ext = os.path.splitext(src)
