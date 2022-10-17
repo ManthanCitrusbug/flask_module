@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, jsonify, abort
 from flask_module.user.forms import RegistraionForm, LoginForm
-from flask_module.user.models import User
+from flask_module.user.models import User, Role
 from flask_module.posts.models import Post
 from flask_login import current_user, login_user, logout_user
 from flask_module import bcrypt, db, app

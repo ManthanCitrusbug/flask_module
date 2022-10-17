@@ -1,11 +1,8 @@
-import imp
-from operator import imod
 from flask_restful import Api, Resource, marshal_with, fields
 from flask_module.user.models import *
 from flask_module.posts.models import *
 from flask_module import app, bcrypt
 from flask import request
-from functools import wraps
 import random
 
 api = Api(app)
