@@ -1,0 +1,33 @@
+{% extends "customadmin/dashboard.html" %}
+
+{% block contant %}
+<div class="m-5">
+    <h2>Username : {{user.username}}</h2>
+    <hr>
+    <h2>Email : {{user.email}}</h2>
+    <hr>
+    <h2>Profile Picture : {{user.profile_picture}}</h2>
+    <hr>
+    <img src="{{ url_for('static', filename='images/'+user.profile_picture) }}" alt="" style="height: 250px;">
+    <hr>
+    <h2>Posts : {{user.post|length}}</h2>
+    {% for post in user.post %}
+        <h4 class="ml-5">Caption : {{post.caption}}</h4>
+        <h4 class="ml-5">Image : {{post.image}}</h4>
+        <hr>
+    {% endfor %}
+    <h2>Comments : {{user.comment|length}}</h2>
+    {% for comment in user.comment %}
+        <h4 class="ml-5">Comment : {{comment.comment}}</h4>
+        <h4 class="ml-5">User : {{comment.user.username}}</h4>
+        <h4 class="ml-5">Post : {{comment.post.caption}}</h4>
+        <hr>
+    {% endfor %}
+    <h2>Likes : {{user.like|length}}</h2>
+    {% for like in user.like %}
+        <h4 class="ml-5">User : {{like.post.user.username}}</h4>
+        <h4 class="ml-5">Post : {{like.post.caption}}</h4>
+        <hr>
+    {% endfor %}
+</div>
+{% endblock contant %}

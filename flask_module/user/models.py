@@ -26,16 +26,17 @@ class User(db.Model, UserMixin):
                     primaryjoin=id==connected_user.c.parent_id,
                     secondaryjoin=id==connected_user.c.children_id,
                     backref="followed_by")
-    role = db.relationship("Role", backref="user", lazy=True, cascade = "all, delete, delete-orphan", )
+    role_id = db.Column(db.Integer, db.ForeignKey("role.id"), nullable=False)
     
     def __repr__(self):
         return f"<User ({self.username})>"
+            
     
     
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    user = db.relationship("User", backref="role")
     
     def __repr__(self):
-        return f"<User ({self.name})>"
+        return f"<Role ({self.name})>"

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <title>Dashboard</title>
+</head>
+<body>
+
+    <style>
+        #sidebar {
+            height: 900px;
+        }
+        #module-title {
+            margin-top: 80px;
+            margin-left: 30px;
+        }
+        #navbar {
+            height: 200px;
+        }
+
+    </style>
+
+    <div class="row" id="sidebar">
+        <div class="col bg-dark">
+            <div id="module-title">
+                <h1 class="text-white">Flask Module</h1>
+            </div>
+            <hr style="background: white">
+            <div class="mt-5 text-center">
+                <a href="{{url_for('customadmin.dashboard', username=current_user.username)}}"><h3 class="text-white">User</h3></a><br>
+                <a href="{{url_for('customadmin.post_list')}}"><h3 class="text-white">Post</h3></a><br>
+                <a href=""><h3 class="text-white">Comments</h3></a><br>
+                <a href="{{url_for('customadmin.like_list')}}"><h3 class="text-white">Like</h3></a><br>
+            </div>
+        </div>
+
+        
+        <div class="col-10">
+
+            <div id="navbar" class="bg-secondary">
+                <a href="{{url_for('customadmin.logout')}}"><h3 class="float-right px-5 pt-5 text-white">Logout</h3></a>
+                <a href=""><h3 class="float-right px-5 pt-5 text-white">Add New Data</h3></a>
+                <h3 class="text-white pt-4 px-5">User : {{current_user.username}}</h3>
+                <h3 class="text-white px-5">Email : {{current_user.email}}</h3>
+                <h3 class="text-white px-5">Role : {{current_user.role.name}}</h3>
+            </div>
+
+            {% block contant %}
+            <table class="table table-striped m-auto mt-2">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Profile Picture</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                  <tr>
+                    <th scope="row">{{user.id}}</th>
+                    <td>{{user.username}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.profile_picture}}</td>
+                    <td>{{user.role.name}}</td>
+                    <td>
+                        {% if current_user.role.name == "Superuser" %}
+                        <a href="" class="btn btn-warning">Edit</a>
+                        <a href="" class="btn btn-danger mx-2 delete-user" data-userid="{{user.id}}">Delete</a>
+                        {% endif %}
+                        <a href="{{url_for('customadmin.user_detail', user_id=user.id)}}" class="btn btn-info">View</a></td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+              {% endblock contant %}
+        </div>
+        <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% extends "customadmin/dashboard.html" %}
+
+{% block contant %}
+<table class="table table-striped m-auto mt-2">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Caption</th>
+        <th scope="col">Image</th>
+        <th scope="col">User</th>
+        <th scope="col">Likes</th>
+        <th scope="col">Comments</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for post in posts %}
+      <tr>
+        <th scope="row">{{post.id}}</th>
+        <td>{{post.caption}}</td>
+        <td>{{post.image}}</td>
+        <td>{{post.user.username}}</td>
+        <td>{{post.likes|length}}</td>
+        <td>{{post.comment|length}}</td>
+        <td>
+            {% if current_user.role.name == "Superuser" %}
+            <a href="" class="btn btn-warning">Edit</a>
+            <a href="" class="btn btn-danger mx-2 delete-post-customadmin" data-postid="{{post.id}}">Delete</a>
+            {% endif %}
+            <a href="{{url_for('customadmin.post_detail', post_id=post.id)}}" class="btn btn-info">View</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="my-5 text-center">
+    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
+        {% if page_num %}
+            {% if posts.page == page_num %}
+                <a href="{{ url_for('customadmin.post_list', page=page_num) }}" class="btn btn-info">{{page_num}}</a>
+            {% else %}
+                <a href="{{ url_for('customadmin.post_list', page=page_num) }}" class="btn btn-outline-info">{{page_num}}</a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock contant %}

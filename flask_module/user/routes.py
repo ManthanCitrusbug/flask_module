@@ -5,7 +5,7 @@ from flask_module.posts.models import Post
 from flask_login import current_user, login_user, logout_user
 from flask_module import bcrypt, db, app
 from bs4 import BeautifulSoup
-import secrets, os, requests, base64
+import secrets, os, requests, base64    
 
 user = Blueprint("user", __name__)
 
@@ -32,6 +32,7 @@ def register():
         return redirect(url_for('user.profile', username=loged_in_user))
     else:
         if form.validate_on_submit():
+            role = Role.query.filter_by(name="User").first()
             hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
             if form.profile_picture.data:
                 hex_image = secrets.token_hex(8)
@@ -39,9 +40,9 @@ def register():
                 image_name = hex_image + f_ext
                 image_path = os.path.join(app.root_path, 'static\images', image_name)
                 form.profile_picture.data.save(image_path)
-                user = User(username=form.username.data, email=form.email.data, profile_picture=image_name, password=hashed_password)
+                user = User(username=form.username.data, email=form.email.data, profile_picture=image_name, password=hashed_password, role_id=role.id)
             else:
-                user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+                user = User(username=form.username.data, email=form.email.data, password=hashed_password, role_id=role.id)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for("user.login"))

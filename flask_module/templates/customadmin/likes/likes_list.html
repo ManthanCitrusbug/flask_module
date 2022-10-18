@@ -1,0 +1,45 @@
+{% extends "customadmin/dashboard.html" %}
+
+{% block contant %}
+<table class="table table-striped m-auto mt-2">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">User</th>
+        <th scope="col">Post</th>
+        <th scope="col">Post by</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for like in likes %}
+      <tr>
+        <th scope="row">{{like.id}}</th>
+        <td>{{like.user.username}}</td>
+        <td>{{like.post.caption}}</td>
+        <td>{{like.post.user.username}}</td>
+        <td>
+            {% if current_user.role.name == "Superuser" %}
+            <a href="" class="btn btn-warning">Edit</a>
+            <a href="" class="btn btn-danger mx-2 delete-like-customadmin" data-likeid="{{like.id}}">Delete</a>
+            {% endif %}
+            <a href="{{url_for('customadmin.like_detail', like_id=like.id)}}" class="btn btn-info">View</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="my-5 text-center">
+    {% for page_num in likes.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
+        {% if page_num %}
+            {% if likes.page == page_num %}
+                <a href="{{ url_for('customadmin.like_list', page=page_num) }}" class="btn btn-info">{{page_num}}</a>
+            {% else %}
+                <a href="{{ url_for('customadmin.like_list', page=page_num) }}" class="btn btn-outline-info">{{page_num}}</a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock contant %}
