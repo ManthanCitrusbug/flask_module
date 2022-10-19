@@ -14,7 +14,7 @@
             <h3 class="display-4">Post by - {{ post.user.username }}</h3>
             <p class="lead">{{ post.caption }}</p>
             <hr class="my-4">
-            <p>{{ post.created_at }}</p>
+            <p>{{ post.created_at.strftime('%Y-%m-%d') }}</p>
             <p>Likes : {{ post.likes|length }}</p>
             <p class="lead">
 
@@ -28,17 +28,23 @@
                     </form>
                     <a class="btn btn-primary btn-lg comment-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Comment</a>
                     <a class="btn btn-info btn-lg view-post-button" id="view-post-{{post.id}}" data-postid="{{post.id}}" href="{{ url_for('post.post_detail', post_id=post.id) }}" role="button">View Post</a>
-                    
-                    {% if current_user.like|length > 0 %}
-                        {% for like in current_user.like %}
-                            {% if like in post.likes %}
-                                <a class="btn btn-danger btn-lg dislike-button" data-likeid="{{like.id}}" href="javascript:void(0);" role="button">Disike</a>   
-                            {% elif loop.last %}   
-                                <a class="btn btn-warning btn-lg like-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Like</a>                         
-                            {% endif %}
-                        {% endfor %}
+
+                    {% if post.likes|length < 1 %}
+                        <a class="btn btn-warning btn-lg like-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Like</a>
                     {% endif %}
-        
+
+                    {% for like in post.likes if like in current_user.like %}
+                        {% if loop.last %}
+                            <a class="btn btn-danger btn-lg dislike-button" data-likeid="{{like.id}}" href="javascript:void(0);" role="button">Disike</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for like in post.likes if like not in current_user.like %}
+                        {% if loop.last %}
+                            <a class="btn btn-warning btn-lg like-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Like</a>
+                        {% endif %}
+                    {% endfor %}
+
                 {% endif %}
                 <hr class="my-4">
                 <h4>Comments :</h4>

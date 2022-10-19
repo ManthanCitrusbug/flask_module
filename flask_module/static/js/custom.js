@@ -42,3 +42,10 @@ $(".delete-like-customadmin").on("click", function(){
         window.location.href = `/customadmin/${like_id}/delete_like`
     }
 })
+
+$(".delete-comment-customadmin").on("click", function(){
+    var comment_id = $(this).data("commentid")
+    if (confirm("Wanna delete this comment?") === true){
+        window.location.href = `/customadmin/${comment_id}/delete_comment`
+    }
+})

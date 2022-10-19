@@ -1,6 +1,9 @@
 {% extends "customadmin/dashboard.html" %}
 
 {% block contant %}
+  {% if current_user.role.name == "Superuser" %}
+    <a href="{{url_for('customadmin.add_post')}}"><h3 class="float-right mx-5 my-3 btn btn-dark">Add New Post</h3></a>
+  {% endif %}
 <table class="table table-striped m-auto mt-2">
     <thead>
       <tr>
@@ -24,7 +27,7 @@
         <td>{{post.comment|length}}</td>
         <td>
             {% if current_user.role.name == "Superuser" %}
-            <a href="" class="btn btn-warning">Edit</a>
+            <a href="{{url_for('customadmin.post_update', post_id=post.id)}}" class="btn btn-warning">Edit</a>
             <a href="" class="btn btn-danger mx-2 delete-post-customadmin" data-postid="{{post.id}}">Delete</a>
             {% endif %}
             <a href="{{url_for('customadmin.post_detail', post_id=post.id)}}" class="btn btn-info">View</a></td>

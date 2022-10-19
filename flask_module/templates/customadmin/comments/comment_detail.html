@@ -1,0 +1,13 @@
+{% extends "customadmin/dashboard.html" %}
+
+{% block contant %}
+<div class="m-5">
+    <h2>Comment : {{comment.comment}}</h2>
+    <hr>
+    <h2>Comment by : {{comment.user.username}}</h2>
+    <hr>
+    <h2>Post : {{comment.post.caption}}</h2>
+    <hr>
+    <h2>Post by : {{comment.post.user.username}}</h2>
+</div>
+{% endblock contant %}

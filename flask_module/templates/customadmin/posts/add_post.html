@@ -1,0 +1,52 @@
+{% extends "customadmin/dashboard.html" %}
+
+{% block contant %}
+<div class="m-5">
+    <h2 class="text-center mb-5">Add Post</h2>
+    <form method="POST" action="{{ url_for('customadmin.add_post') }}" novalidate enctype=multipart/form-data>
+        {{form.hidden_tag()}}
+        <div class="text-center mt-3">
+            {{ form.image.label(class="form-control-label w-50") }}
+            {{ form.image(class="form-control-file mt-2 m-auto w-50") }}
+            {% if form.image.errors %}
+                {% for error in form.image.errors %}
+                    <span class="text-danger">{{error}}</span><br>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="text-center mt-3">
+            <div class="text-center mt-3">
+                {{ form.caption.label(class="form-control-label") }}
+                {% if form.caption.errors %}
+                    {{ form.caption(class="form-control mt-2 is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.caption.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.caption(class="form-control mt-2",) }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <div class="text-center mt-3">
+                {{ form.user.label(class="form-control-label") }}
+                {% if form.user.errors %}
+                    {{ form.user(class="form-control mt-2 is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.user.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.user(class="form-control mt-2", attr="required=False") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            {{ form.submit(class="btn btn-success mt-2") }}
+        </div>
+    </form>
+</div>
+{% endblock contant %}

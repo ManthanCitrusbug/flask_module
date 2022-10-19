@@ -9,6 +9,17 @@
 
 {% block contant %}
 <div class="container m-auto">
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{category}} m-auto">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <h3 class="text-center mt-5">Customadmin Login</h3>
     <form method="POST" action="{{ url_for('customadmin.login') }}" novalidate>
         {{form.hidden_tag()}}

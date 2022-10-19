@@ -1,0 +1,53 @@
+{% extends "customadmin/dashboard.html" %}
+
+{% block contant %}
+  {% if current_user.role.name == "Superuser" %}
+    <a href="{{url_for('customadmin.add_comment')}}"><h3 class="float-right mx-5 my-3 btn btn-dark">Add New Comment</h3></a>
+  {% endif %}
+
+<table class="table table-striped m-auto mt-2">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Comment</th>
+        <th scope="col">Comment by</th>
+        <th scope="col">Post</th>
+        <th scope="col">Post ID</th>
+        <th scope="col">Post by</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for comment in comments %}
+      <tr>
+        <th scope="row">{{comment.id}}</th>
+        <td>{{comment.comment}}</td>
+        <td>{{comment.user.username}}</td>
+        <td>{{comment.post.caption}}</td>
+        <td>{{comment.post.id}}</td>
+        <td>{{comment.post.user.username}}</td>
+        <td>
+            {% if current_user.role.name == "Superuser" %}
+            <a href="{{url_for('customadmin.comment_update', comment_id=comment.id)}}" class="btn btn-warning">Edit</a>
+            <a href="" class="btn btn-danger mx-2 delete-comment-customadmin" data-commentid="{{comment.id}}">Delete</a>
+            {% endif %}
+            <a href="{{url_for('customadmin.comment_detail', comment_id=comment.id)}}" class="btn btn-info">View</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="my-5 text-center">
+    {% for page_num in comments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
+        {% if page_num %}
+            {% if comments.page == page_num %}
+                <a href="{{ url_for('customadmin.comments_list', page=page_num) }}" class="btn btn-info">{{page_num}}</a>
+            {% else %}
+                <a href="{{ url_for('customadmin.comments_list', page=page_num) }}" class="btn btn-outline-info">{{page_num}}</a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock contant %}

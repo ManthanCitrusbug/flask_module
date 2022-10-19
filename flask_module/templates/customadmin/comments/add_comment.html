@@ -1,0 +1,58 @@
+{% extends "customadmin/dashboard.html" %}
+
+{% block contant %}
+<div class="m-5">
+    <h2 class="text-center mb-5">Add Comment</h2>
+    <form method="POST" action="{{ url_for('customadmin.add_comment') }}" novalidate enctype=multipart/form-data>
+        {{form.hidden_tag()}}
+        <div class="text-center mt-3">
+            <div class="text-center mt-3">
+                {{ form.comment.label(class="form-control-label") }}
+                {% if form.comment.errors %}
+                    {{ form.comment(class="form-control mt-2 is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.comment.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.comment(class="form-control mt-2",) }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <div class="text-center mt-3">
+                {{ form.post.label(class="form-control-label") }}
+                {% if form.post.errors %}
+                    {{ form.post(class="form-control mt-2 is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.post.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.post(class="form-control mt-2", attr="required=False") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <div class="text-center mt-3">
+                {{ form.user.label(class="form-control-label") }}
+                {% if form.user.errors %}
+                    {{ form.user(class="form-control mt-2 is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.user.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.user(class="form-control mt-2", attr="required=False") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            {{ form.submit(class="btn btn-success mt-2") }}
+        </div>
+    </form>
+</div>
+{% endblock contant %}
