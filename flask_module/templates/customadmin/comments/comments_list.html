@@ -1,11 +1,15 @@
 {% extends "customadmin/dashboard.html" %}
 
 {% block contant %}
+
+
   {% if current_user.role.name == "Superuser" %}
-    <a href="{{url_for('customadmin.add_comment')}}"><h3 class="float-right mx-5 my-3 btn btn-dark">Add New Comment</h3></a>
+  <div class="text-right">
+    <a href="{{url_for('customadmin.add_comment')}}"><h3 class="mx-5 my-3 btn btn-dark">Add New Comment</h3></a>
+  </div>
   {% endif %}
 
-<table class="table table-striped m-auto mt-2">
+<table id="comment-table" class="table table-striped m-auto mt-2">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -37,17 +41,4 @@
     </tbody>
   </table>
 
-  <div class="my-5 text-center">
-    {% for page_num in comments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
-        {% if page_num %}
-            {% if comments.page == page_num %}
-                <a href="{{ url_for('customadmin.comments_list', page=page_num) }}" class="btn btn-info">{{page_num}}</a>
-            {% else %}
-                <a href="{{ url_for('customadmin.comments_list', page=page_num) }}" class="btn btn-outline-info">{{page_num}}</a>
-            {% endif %}
-        {% else %}
-            ...
-        {% endif %}
-    {% endfor %}
-</div>
 {% endblock contant %}

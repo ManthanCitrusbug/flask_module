@@ -38,12 +38,11 @@
                     {% for like in post.likes %}
                         {% if like in current_user.like %}
                             <a class="btn btn-danger btn-lg dislike-button" data-likeid="{{like.id}}" href="javascript:void(0);" role="button">Disike</a>
+                            {% break %}
                         {% elif like not in current_user.like %}
-                            {% if loop.length == loop.index %}
+                            {% if loop.last %}
                                 <a class="btn btn-warning btn-lg like-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Like</a>
                             {% endif %}
-                        {% else %}
-                            <a class="btn btn-warning btn-lg like-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Like</a>
                         {% endif %}
                     {% endfor %}
 

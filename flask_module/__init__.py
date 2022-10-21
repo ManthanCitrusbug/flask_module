@@ -12,6 +12,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 bcrypt = Bcrypt(app)
+app.jinja_env.add_extension("jinja2.ext.loopcontrols")
 
 from flask_module.api.routes import *
 from flask_module.user.routes import user

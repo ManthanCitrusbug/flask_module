@@ -49,3 +49,10 @@ $(".delete-comment-customadmin").on("click", function(){
         window.location.href = `/customadmin/${comment_id}/delete_comment`
     }
 })
+
+$(document).ready(function(){
+    $("#user-table").DataTable();
+    $("#post-table").DataTable();
+    $("#comment-table").DataTable();
+    $("#like-table").DataTable();
+})

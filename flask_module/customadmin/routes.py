@@ -206,8 +206,9 @@ def post_update(post_id):
 @customadmin.route("/customadmin/post_list")
 @login_required
 def post_list():
-    page = request.args.get("page", 1)
-    posts = Post.query.paginate(per_page=7, page=int(page))
+    # page = request.args.get("page", 1)
+    posts = Post.query.all()
+    # posts = Post.query.paginate(per_page=7, page=int(page))
     return render_template("customadmin/posts/post_list.html", posts=posts)
 
 
@@ -240,8 +241,8 @@ def delete_post(post_id):
 @customadmin.route("/customadmin/like_list")
 @login_required
 def like_list():
-    page = request.args.get("page", 1)
-    likes = Likes.query.paginate(per_page=7, page=int(page))
+    # page = request.args.get("page", 1)
+    likes = Likes.query.all()
     return render_template("customadmin/likes/likes_list.html", likes=likes)
 
 
@@ -302,8 +303,8 @@ def comment_update(comment_id):
 @customadmin.route("/customadmin/comments_list")
 @login_required
 def comments_list():
-    page = request.args.get("page", 1)
-    comments = Comments.query.paginate(per_page=7, page=int(page))
+    # page = request.args.get("page", 1)
+    comments = Comments.query.all()
     return render_template("customadmin/comments/comments_list.html", comments=comments)
 
 

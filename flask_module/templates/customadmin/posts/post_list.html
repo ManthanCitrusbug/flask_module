@@ -1,10 +1,15 @@
 {% extends "customadmin/dashboard.html" %}
 
 {% block contant %}
-  {% if current_user.role.name == "Superuser" %}
-    <a href="{{url_for('customadmin.add_post')}}"><h3 class="float-right mx-5 my-3 btn btn-dark">Add New Post</h3></a>
-  {% endif %}
-<table class="table table-striped m-auto mt-2">
+
+
+    {% if current_user.role.name == "Superuser" %}
+    <div class="text-right">
+      <a href="{{url_for('customadmin.add_post')}}"><h3 class="mx-5 my-3 btn btn-dark">Add New Post</h3></a>
+    </div>
+    {% endif %}
+  
+<table id="post-table" class="table table-striped m-auto mt-2">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -36,17 +41,5 @@
     </tbody>
   </table>
 
-  <div class="my-5 text-center">
-    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
-        {% if page_num %}
-            {% if posts.page == page_num %}
-                <a href="{{ url_for('customadmin.post_list', page=page_num) }}" class="btn btn-info">{{page_num}}</a>
-            {% else %}
-                <a href="{{ url_for('customadmin.post_list', page=page_num) }}" class="btn btn-outline-info">{{page_num}}</a>
-            {% endif %}
-        {% else %}
-            ...
-        {% endif %}
-    {% endfor %}
-</div>
+
 {% endblock contant %}
