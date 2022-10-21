@@ -33,14 +33,16 @@
                         <a class="btn btn-warning btn-lg like-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Like</a>
                     {% endif %}
 
-                    {% for like in post.likes if like in current_user.like %}
-                        {% if loop.last %}
-                            <a class="btn btn-danger btn-lg dislike-button" data-likeid="{{like.id}}" href="javascript:void(0);" role="button">Disike</a>
-                        {% endif %}
-                    {% endfor %}
 
-                    {% for like in post.likes if like not in current_user.like %}
-                        {% if loop.last %}
+
+                    {% for like in post.likes %}
+                        {% if like in current_user.like %}
+                            <a class="btn btn-danger btn-lg dislike-button" data-likeid="{{like.id}}" href="javascript:void(0);" role="button">Disike</a>
+                        {% elif like not in current_user.like %}
+                            {% if loop.length == loop.index %}
+                                <a class="btn btn-warning btn-lg like-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Like</a>
+                            {% endif %}
+                        {% else %}
                             <a class="btn btn-warning btn-lg like-button" data-postid="{{post.id}}" href="javascript:void(0);" role="button">Like</a>
                         {% endif %}
                     {% endfor %}

@@ -160,6 +160,8 @@ def scrape_images():
     
     img_scr = []
     for img in images:
+        if img['src'][0] == "/":
+            img['src'] = "https:" + img['src']
         img_scr.append(img['src'])
     print(img_scr)
     return jsonify(img_scr)
