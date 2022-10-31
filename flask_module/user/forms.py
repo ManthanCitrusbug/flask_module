@@ -31,3 +31,19 @@ class LoginForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if not user:
             raise ValidationError("Check your email id or password.")
+        
+
+class ResetPasswordEmailForm(FlaskForm):
+    email = StringField("Email", validators=[validators.DataRequired(), validators.Email()])
+    submit = SubmitField("Reset Password Request")
+    
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if not user:
+            raise ValidationError("There is not account with this email ID. Check your email first.")
+        
+        
+class ResetPassword(FlaskForm):
+    password = PasswordField("Password", validators=[validators.DataRequired(), validators.Length(min=2, max=10)])
+    confirm_password = PasswordField("Confirm Password", validators=[validators.DataRequired(), validators.EqualTo("password")])
+    submit = SubmitField("Reset Password")

@@ -46,6 +46,7 @@
             {{ form.submit(class="btn btn-success mt-2") }}
         </div> 
     </form>
+    <p class="text-center mt-2"><a href="{{ url_for('user.reset_password_request') }}">Forget Password.</a></p>
     <p class="text-center mt-5">Not register yet? Please <a href="{{ url_for('user.register') }}">Register</a> first.</p>
 </div>
 {% endblock contant %}

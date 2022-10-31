@@ -1,6 +1,7 @@
-from email.policy import default
-from flask_module import login_manager, db
+from flask_module import login_manager, db, app
 from flask_login import UserMixin
+from itsdangerous import URLSafeTimedSerializer
+import base64
 
 connected_user = db.Table(
     'connected_user', 
@@ -30,6 +31,19 @@ class User(db.Model, UserMixin):
     
     def __repr__(self):
         return f"<User ({self.username})>"
+    
+    def generet_reset_password_token(self, expires_sec=300):
+        token = URLSafeTimedSerializer(app.config['SECRET_KEY'], expires_sec)
+        return token.dumps(self.id, salt="password-reset-token")
+    
+    @staticmethod
+    def verify_password_token(token):
+        ser = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        try:
+            user_id = ser.loads(token, salt="password-reset-token", max_age=10)
+        except:
+            return None
+        return User.query.get(user_id)
             
     
     

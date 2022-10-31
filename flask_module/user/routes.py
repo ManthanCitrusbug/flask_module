@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, jsonify, abort
-from flask_module.user.forms import RegistraionForm, LoginForm
+from flask_module.user.forms import RegistraionForm, LoginForm, ResetPasswordEmailForm, ResetPassword
 from flask_module.user.models import User, Role
 from flask_module.posts.models import Post
 from flask_login import current_user, login_user, logout_user
-from flask_module import bcrypt, db, app
+from flask_module import bcrypt, db, app, mail
 from bs4 import BeautifulSoup
+from flask_mail import Message
 import secrets, os, requests, base64    
 
 user = Blueprint("user", __name__)
@@ -198,3 +199,40 @@ def post_scraped():
     db.session.add(post)
     db.session.commit()
     return jsonify(src)
+
+
+def send_mail(user):
+    token = user.generet_reset_password_token()
+    msg = Message("Password Reset Request", sender="noreply@demo.com", recipients=[user.email])
+    msg.body = f"""
+    To reset your password, visit following link.
+    {url_for("user.reset_password", token=token, _external=True)}
+    """
+    mail.send(msg)
+
+
+@user.route("/reset_password_request", methods=["GET", "POST"])
+def reset_password_request():
+    form = ResetPasswordEmailForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_mail(user)
+        return redirect(url_for("user.login"))
+        # token = User.generet_reset_password_token(user)
+        
+        # return redirect(url_for("user.reset_password", token=token))
+    return render_template("user/reset_password_request.html", form=form)
+
+
+@user.route("/reset_password/<token>", methods=["GET", "POST"])
+def reset_password(token):
+    user = User.verify_password_token(token)
+    if user is None:
+        return redirect("user.reset_password_request")
+    form = ResetPassword()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+        user.password = hashed_password
+        db.session.commit()
+        return redirect(url_for("user.login"))
+    return render_template("user/reset_password.html", form=form, token=token)
