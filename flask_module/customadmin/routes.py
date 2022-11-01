@@ -6,12 +6,10 @@ from flask_module.posts.models import *
 from flask_login import current_user, login_user, logout_user
 from flask_module.user.forms import LoginForm
 from flask_module.customadmin.forms import *
-from flask_wtf.csrf import CSRFProtect
 from functools import wraps
 import secrets, os
 
 customadmin = Blueprint("customadmin", __name__)
-csrf = CSRFProtect(app)
 
 
 def login_required(f):

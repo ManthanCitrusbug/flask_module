@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from flask_mail import Mail
+from flask_wtf.csrf import CSRFProtect
 import os
 
 app = Flask(__name__)
@@ -16,19 +17,19 @@ login_manager = LoginManager(app)
 bcrypt = Bcrypt(app)
 app.jinja_env.add_extension("jinja2.ext.loopcontrols")
 
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-# app.config['MAIL_SERVER'] = 'smtp.google.com'
-app.config['MAIL_PORT'] = 465
-# app.config['MAIL_PORT'] = 587
-# app.config['MAIL_USERNAME'] = "manthanmevada45115@gmail.com"
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+# # app.config['MAIL_SERVER'] = 'smtp.google.com'
+# app.config['MAIL_PORT'] = 465
+app.config['MAIL_PORT'] = 587
 app.config['MAIL_USERNAME'] = os.environ.get("EMAIL_USERNAME")
-# app.config['MAIL_PASSWORD'] = "Manthan123@"
 app.config['MAIL_PASSWORD'] = os.environ.get("EMAIL_PASSWORD")
 # app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_TLS'] = True
 # app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USE_SSL'] = False
+# app.config['MAIL_USE_SSL'] = False
 mail = Mail(app)
+csrf = CSRFProtect(app)
 
 from flask_module.api.routes import *
 from flask_module.user.routes import user
