@@ -3,7 +3,7 @@
 {% block contant %}
 <div class="m-5">
     <h2 class="text-center mb-5">Update Comment</h2>
-    <form method="POST" action="{{ url_for('customadmin.comment_update', comment_id=comment.id) }}" novalidate enctype=multipart/form-data>
+    <form method="POST" action="{{ url_for('customadmin.comment.comment_update', comment_id=comment.id) }}" novalidate enctype=multipart/form-data>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <div class="text-center mt-3">
             <label for="comment" class="form-control-label">Comment</label>

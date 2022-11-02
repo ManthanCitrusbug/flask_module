@@ -1,1 +1,1 @@
-from .routes import user_detail
+from .routes import users

@@ -30,23 +30,3 @@ class CustomadminEditUserForm(FlaskForm):
     profile_picture = FileField("Profile Picture", validators=[FileAllowed(['jpg', 'png'])])
     role = SelectField("User Role", validators=[validators.DataRequired()], choices=[])
     submit = SubmitField("Update User")
-    
-    
-class CustomadminAddPostForm(FlaskForm):
-    image = FileField("Image", validators=[FileAllowed(['jpg', 'png']), validators.DataRequired()])
-    caption = StringField("Caption", validators=[validators.DataRequired()])
-    user = SelectField("User", validators=[validators.DataRequired()], choices=[])
-    submit = SubmitField("Add Post")
-    
-
-class CustomadminEditPostForm(FlaskForm):
-    image = FileField("Image", validators=[FileAllowed(['jpg', 'png'])])
-    caption = StringField("Caption", validators=[])
-    submit = SubmitField("Update Post")
-    
-    
-class CustomadminAddCommentForm(FlaskForm):
-    comment = StringField("Comment", validators=[validators.DataRequired()])
-    post = SelectField("Post", validators=[validators.DataRequired()], choices=[])
-    user = SelectField("User", validators=[validators.DataRequired()], choices=[])
-    submit = SubmitField("Add Comment")

@@ -22,7 +22,7 @@
             {% if current_user.role.name == "Superuser" %}
             <a href="" class="btn btn-danger mx-2 delete-like-customadmin" data-likeid="{{like.id}}">Delete</a>
             {% endif %}
-            <a href="{{url_for('customadmin.like_detail', like_id=like.id)}}" class="btn btn-info">View</a></td>
+            <a href="{{url_for('customadmin.like.like_detail', like_id=like.id)}}" class="btn btn-info">View</a></td>
       </tr>
     {% endfor %}
     </tbody>

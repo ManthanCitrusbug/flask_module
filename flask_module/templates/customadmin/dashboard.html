@@ -33,9 +33,9 @@
             <hr style="background: white">
             <div class="mt-5 text-center">
                 <a href="{{url_for('customadmin.dashboard', username=current_user.username)}}"><h3 class="text-white">User</h3></a><br>
-                <a href="{{url_for('customadmin.post_list')}}"><h3 class="text-white">Post</h3></a><br>
-                <a href="{{url_for('customadmin.comments_list')}}"><h3 class="text-white">Comments</h3></a><br>
-                <a href="{{url_for('customadmin.like_list')}}"><h3 class="text-white">Like</h3></a><br>
+                <a href="{{url_for('customadmin.post.post_list')}}"><h3 class="text-white">Post</h3></a><br>
+                <a href="{{url_for('customadmin.comment.comments_list')}}"><h3 class="text-white">Comments</h3></a><br>
+                <a href="{{url_for('customadmin.like.like_list')}}"><h3 class="text-white">Like</h3></a><br>
             </div>
         </div>
 
@@ -53,7 +53,7 @@
 
                 {% if current_user.role.name == "Superuser" %}
                 <div class="text-right">
-                    <a href="{{url_for('customadmin.add_user')}}"><h3 class="mx-5 my-3 btn btn-dark">Add New User</h3></a>
+                    <a href="{{url_for('customadmin.users.add_user')}}"><h3 class="mx-5 my-3 btn btn-dark">Add New User</h3></a>
                 </div>
                 {% endif %}
 
@@ -78,10 +78,10 @@
                     <td>{{user.role.name}}</td>
                     <td>
                         {% if current_user.role.name == "Superuser" %}
-                        <a href="{{url_for('customadmin.user_update', user_id=user.id)}}" class="btn btn-warning">Edit</a>
+                        <a href="{{url_for('customadmin.users.user_update', user_id=user.id)}}" class="btn btn-warning">Edit</a>
                         <a href="" class="btn btn-danger mx-2 delete-user" data-userid="{{user.id}}">Delete</a>
                         {% endif %}
-                        <a href="{{url_for('customadmin.user_detail', user_id=user.id)}}" class="btn btn-info">View</a></td>
+                        <a href="{{url_for('customadmin.users.user_detail', user_id=user.id)}}" class="btn btn-info">View</a></td>
                   </tr>
                 {% endfor %}
                 </tbody>

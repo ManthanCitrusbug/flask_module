@@ -35,10 +35,18 @@ from flask_module.api.routes import *
 from flask_module.user.routes import user
 from flask_module.posts.routes import post
 from flask_module.customadmin.routes import customadmin
+from flask_module.customadmin.users.routes import users
+from flask_module.customadmin.posts.routes import post
+from flask_module.customadmin.comments.routes import comment
+from flask_module.customadmin.likes.routes import like
 from flask_module.error_handlers import error_handlers
 
 app.register_blueprint(user)
 app.register_blueprint(post)
+customadmin.register_blueprint(users)
+customadmin.register_blueprint(post)
+customadmin.register_blueprint(comment)
+customadmin.register_blueprint(like)
 app.register_blueprint(customadmin)
 api.add_resource(UsersApi, '/api/users')
 api.add_resource(UserLogin, '/api/login')

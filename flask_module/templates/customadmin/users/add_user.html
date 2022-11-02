@@ -2,7 +2,7 @@
 
 {% block contant %}
 <h2 class="text-center mb-5">Add User</h2>
-<form method="POST" action="{{ url_for('customadmin.add_user') }}" novalidate enctype=multipart/form-data>
+<form method="POST" action="{{ url_for('customadmin.users.add_user') }}" novalidate enctype=multipart/form-data>
     {{form.hidden_tag()}}
     <div class="text-center mt-3">
         {{ form.username.label(class="form-control-label") }}

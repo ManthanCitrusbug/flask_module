@@ -3,7 +3,7 @@
 {% block contant %}
 <div class="m-5">
     <h2 class="text-center mb-5">Add Post</h2>
-    <form method="POST" action="{{ url_for('customadmin.add_post') }}" novalidate enctype=multipart/form-data>
+    <form method="POST" action="{{ url_for('customadmin.post.add_post') }}" novalidate enctype=multipart/form-data>
         {{form.hidden_tag()}}
         <div class="text-center mt-3">
             {{ form.image.label(class="form-control-label w-50") }}
