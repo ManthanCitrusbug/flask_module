@@ -1,6 +1,7 @@
 from flask_module.customadmin.routes import login_required, superuser_required
 from flask import render_template, redirect, url_for, Blueprint
 from flask_module.user.models import *
+from flask_module.posts.models import Likes
 
 like = Blueprint("like", __name__, url_prefix="/like")
 
