@@ -6,7 +6,7 @@ from flask_login import current_user, login_user, logout_user
 from flask_module import bcrypt, db, app, mail
 from bs4 import BeautifulSoup
 from flask_mail import Message
-import secrets, os, requests, base64    
+import secrets, os, requests, base64, random
 
 user = Blueprint("user", __name__)
 
@@ -216,6 +216,8 @@ def reset_password_request():
     form = ResetPasswordEmailForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
+        code = random.choice(range(100000, 999999))
+        print(code)
         send_mail(user)
         return redirect(url_for("user.login"))
         # token = User.generet_reset_password_token(user)

@@ -1,39 +1,16 @@
 from flask import Blueprint, render_template, url_for, request, redirect, flash
-from flask_module import db, bcrypt, app
-from flask_module.posts.models import Likes
+from flask_module import bcrypt
 from flask_module.user.models import User, Role
 from flask_module.posts.models import *
 from flask_login import current_user, login_user, logout_user
 from flask_module.user.forms import LoginForm
-from functools import wraps
-import secrets, os
+from .utiles import login_required
 
 customadmin = Blueprint("customadmin", __name__, url_prefix='/customadmin')
 
-
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):   
-        if current_user.is_authenticated is False:
-            return redirect(url_for('customadmin.login'))
-        return f(*args, **kwargs)
-    return decorated_function
-
-def superuser_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if current_user.is_authenticated:
-            if current_user.role.name != "Superuser":
-                return redirect(url_for('customadmin.dashboard', username=current_user.username))
-        return f(*args, **kwargs)
-    return decorated_function
-            
-      
-
-
 @customadmin.route("/", methods=["POST", "GET"])
 @customadmin.route("/login", methods=["POST", "GET"])
-def login():
+def login(): 
     form = LoginForm()
     if request.method == "POST":
         if form.validate_on_submit():
